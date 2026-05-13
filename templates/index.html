@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thorpe Park Live Status | slothsnleaves</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 2. Global Thorpe Park Theming Variables */
+        :root {
+            --bg-dark: #0a1128;      /* Deep Midnight Blue (Core Thorpe Brand) */
+            --bg-card: #1c2541;      /* Lighter Midnight for cards */
+            --accent-gold: #c6a746;  /* Thorpe Gold/Brass accent */
+            --text-main: #f0f3f5;
+            --text-muted: #abb8c3;
+            
+            /* Enhanced Data Viz Colors */
+            --low-color: #2ecc71;    /* Bright Green */
+            --mid-color: #f39c12;    /* Amber Orange */
+            --high-color: #e74c3c;   /* Crimson Red */
+            --closed-color: #95a5a6; /* Steel Grey */
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            
+            /* 3. Theme Park Background Image: 
+               We use a blurred, darkened image to provide atmosphere without distracting from the data. 
+               Replace this URL with a local image if you prefer. */
+            background-image: 
+                linear-gradient(rgba(10, 17, 40, 0.9), rgba(10, 17, 40, 0.95)), 
+                url('https://www.thorpepark.com/media/ywto5ksz/hyperia-gallery-4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 { 
+            font-family: 'Anton', sans-serif; /* Bold industrial font */
+            margin: 0; 
+            color: var(--accent-gold);
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+        }
+
+        .site-subtitle {
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+
+        /* 4. Industrial Card Styling (inspired by image_1d3d61.jpg) */
+        .land-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        /* Hover animation: card lifts and highlights in Gold */
+        .land-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border-color: var(--accent-gold);
+        }
+
+        h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 3px solid var(--accent-gold);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .ride-list {
+            margin-top: 15px;
+        }
+
+        .ride-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ride-item:last-child { border-bottom: none; }
+
+        .ride-name { 
+            font-weight: 500; 
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        /* 5. Status Badges with Enhanced Color Logic */
+        .status {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 90px;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        
+        .status:hover { transform: scale(1.08); }
+
+        /* The badges are slightly darker to contrast well on the dark card */
+        .low-wait { background: rgba(46, 204, 113, 0.15); color: var(--low-color); border: 1px solid var(--low-color); }
+        .mid-wait { background: rgba(243, 156, 18, 0.15); color: var(--mid-color); border: 1px solid var(--mid-color); }
+        .high-wait { background: rgba(231, 76, 60, 0.15); color: var(--high-color); border: 1px solid var(--high-color); }
+        .closed { background: rgba(149, 165, 166, 0.1); color: var(--closed-color); border: 1px solid var(--closed-color); }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+        .footer a { color: var(--accent-gold); text-decoration: none; font-weight: 600;}
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Thorpe Park</h1>
+            <p class="site-subtitle">Live Queue Monitor | slothsnleaves</p>
+        </header>
+
+        {% for land in lands %}
+            {% if land.rides %}
+            <div class="land-section">
+                <h2>{{ land.name }}</h2>
+                <div class="ride-list">
+                    {% for ride in land.rides %}
+                    <div class="ride-item">
+                        <span class="ride-name">{{ ride.name }}</span>
+                        
+                        {% if ride.is_open %}
+                            {# COLOR LOGIC BASED ON WAIT TIME #}
+                            {% if ride.wait_time <= 20 %}
+                                <span class="status low-wait">{{ ride.wait_time }} MIN</span>
+                            {% elif ride.wait_time <= 40 %}
+                                <span class="status mid-wait">{{ ride.wait_time }} MIN</span>
+                            {% else %}
+                                <span class="status high-wait">{{ ride.wait_time }} MIN</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="status closed">CLOSED</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="footer">
+            <p>A portfolio project by Charlie, computer science student.</p>
+            <p>Live data provided by <a href="https://queue-times.com" target="_blank">Queue-Times.com</a>. This site is not affiliated with Thorpe Park.</p>
+        </div>
+    </div>
+
+</body>
+</html>
